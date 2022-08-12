@@ -131,3 +131,5 @@ dmypy.json
 # folder
 /full_data
 *.csv
+/fingerprints
+*.zip

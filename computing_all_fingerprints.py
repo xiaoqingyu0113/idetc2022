@@ -6,6 +6,7 @@ import glob
 import src.util.feature_extract as fe
 from src.util.features import extract_features
 import time
+import shutil
 
 data_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'full_data/train/'))
 
@@ -13,6 +14,9 @@ if __name__ == "__main__":
     start_time = time.time()
     if not os.path.exists('fingerprints'):
         os.mkdir('fingerprints')
+        os.mkdir('fingerprints/json')
+        os.mkdir('fingerprints/csv')
+
     assembly_paths = glob.glob(data_root+'/*')
     N = len(assembly_paths)
     for iter,filepath in enumerate(assembly_paths):
@@ -23,3 +27,6 @@ if __name__ == "__main__":
         print(f"current runtime = {current_run_time//60} min {current_run_time % 60} sec")
         print(f"time remain = {remain_run_time//60} min {remain_run_time % 60} sec")
         extract_features(filepath, model='ResNet50', write_to =f'fingerprints/{assembly_id}.csv' , recursive=False)
+        shutil.copyfile(filepath+'/assembly.json', f'fingerprints/json/{assembly_id}.json')
+
+    

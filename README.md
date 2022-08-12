@@ -19,9 +19,11 @@ conda activate IDETC22-Hackathon               # activate the created environmen
 
 
 # 2 - Extract Fingerprints from Thumbnail
-In the assembly folder, we have the `assembly.jpg` and `[body_id].jpg`. A pretrained `Resnet50` model is adopted to extract, and save the fingerprints. Just run
+In the assembly folder, we have the `assembly.jpg` and `[body_id].jpg`. A pretrained `Resnet50` model is adopted to extract, and save the fingerprints. 
+- Method 1: extract fingerprints from source
 ```sh
 python computing_all_fingerprints.py
 ```
 The whole process will take about 8 hours, and the results will be saved in `./full_data/training/[assembly_id]/fingerprints.csv`
 
+- Method 2: download the fingerprints from [here](https://drive.google.com/file/d/1-2sJIt5V0zTQ5c0h2dl3OVfILs5S4hU3/view?usp=sharing). Extract the zip file into the `IDETC2022` folder
