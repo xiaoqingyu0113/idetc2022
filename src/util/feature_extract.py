@@ -1,6 +1,7 @@
 from PIL import Image
 import numpy as np
 import os
+from src.util.features import extract_features
 
 data_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'../../full_data/train/'))
 

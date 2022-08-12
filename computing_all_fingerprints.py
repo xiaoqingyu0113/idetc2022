@@ -5,11 +5,21 @@ import os
 import glob
 import src.util.feature_extract as fe
 from src.util.features import extract_features
+import time
 
 data_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'full_data/train/'))
 
 if __name__ == "__main__":
+    start_time = time.time()
+    if not os.path.exists('fingerprints'):
+        os.mkdir('fingerprints')
     assembly_paths = glob.glob(data_root+'/*')
+    N = len(assembly_paths)
     for iter,filepath in enumerate(assembly_paths):
-        print(f"\niter = {iter}, assembly_id = filepath")
-        extract_features(filepath, model='ResNet50', write_to=filepath+'/fingerprints.csv', recursive=False)
+        assembly_id = filepath.split('/')[-1]
+        current_run_time = int(time.time() - start_time)
+        remain_run_time = int(current_run_time/(iter+1)*N)
+        print(f"\niter = {iter}/{len(assembly_paths)}, assembly_id = {assembly_id}")
+        print(f"current runtime = {current_run_time//60} min {current_run_time % 60} sec")
+        print(f"time remain = {remain_run_time//60} min {remain_run_time % 60} sec")
+        extract_features(filepath, model='ResNet50', write_to =f'fingerprints/{assembly_id}.csv' , recursive=False)

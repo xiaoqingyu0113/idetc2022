@@ -17,6 +17,7 @@ conda env create --file=IDETC22-Hackathon.yml  # reproduce conda environment fro
 conda activate IDETC22-Hackathon               # activate the created environment
 ```
 
+
 # 2 - Extract Fingerprints from Thumbnail
 In the assembly folder, we have the `assembly.jpg` and `[body_id].jpg`. A pretrained `Resnet50` model is adopted to extract, and save the fingerprints. Just run
 ```sh
