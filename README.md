@@ -24,6 +24,6 @@ In the assembly folder, we have the `assembly.jpg` and `[body_id].jpg`. A pretra
 ```sh
 python computing_all_fingerprints.py
 ```
-The whole process will take about 8 hours, and the results will be saved in `./full_data/training/[assembly_id]/fingerprints.csv`
+The whole process will take about 8 hours, and the results will be saved in `fingerprints/csv/*.csv` and `fingerprints/json/*.json`
 
-- Method 2: download the fingerprints from [here](https://drive.google.com/file/d/1-2sJIt5V0zTQ5c0h2dl3OVfILs5S4hU3/view?usp=sharing). Extract the zip file into the `IDETC2022` folder
+- Method 2: download the fingerprints from [here](https://drive.google.com/file/d/1-2sJIt5V0zTQ5c0h2dl3OVfILs5S4hU3/view?usp=sharing). Extract the zip file into the `IDETC2022` folder.
