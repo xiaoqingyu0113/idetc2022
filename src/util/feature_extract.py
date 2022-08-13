@@ -80,8 +80,14 @@ def read_assembly_fingerprint(assembly_id):
     fp = pd.read_csv(f"{csv_root}/{assembly_id}.csv",index_col=0).T
     return fp["assembly.jpg"].to_numpy()
 
-def read_json(assembly_id):
+def read_json(assembly_id,property=None):
     f = open (f"{json_root}/{assembly_id}.json", "r")
     assembly_data = json.loads(f.read())
     f.close()
+    
+    if property:
+        try:
+            assembly_data = assembly_data[property]
+        except:
+            raise("property has to be ",assembly_data.keys())
     return assembly_data
