@@ -35,10 +35,20 @@ def plot_assembly_images(assembly_id_list):
     nrow = int(np.ceil(np.sqrt(N)))
     ncol = int(np.ceil(N/nrow))
     fig,axarr = plt.subplots(nrows=nrow,ncols=ncol)
-    axarr = axarr.flatten()
-    for assembly_id, ax in zip(assembly_id_list,axarr):
+    if type(axarr).__module__ == np.__name__:
+        axarr = axarr.flatten()
+        for assembly_id, ax in zip(assembly_id_list,axarr):
+            ax.imshow(read_assembly_image(assembly_id))
+            ax.set_title(f"assembly_id = {assembly_id}",fontdict={'fontsize': font_size+2})
+            ax.get_xaxis().set_visible(False)
+            ax.get_yaxis().set_visible(False)
+    else:
+        ax = axarr;assembly_id = assembly_id_list[0]
         ax.imshow(read_assembly_image(assembly_id))
-        ax.set_title(f"assembly_id = {assembly_id}",fontdict={'fontsize': font_size})
+        ax.set_title(f"assembly_id = {assembly_id}",fontdict={'fontsize': font_size+2})
+        ax.get_xaxis().set_visible(False)
+        ax.get_yaxis().set_visible(False)
+
     plt.show()
     return 
 
@@ -91,3 +101,10 @@ def read_json(assembly_id,property=None):
         except:
             raise("property has to be ",assembly_data.keys())
     return assembly_data
+
+def get_assembly_id_list():
+    filenames = glob.glob(f"{json_root}/*.json")
+    assembly_id_list = []
+    for filename in filenames:
+        assembly_id_list.append(filename.split('/')[-1][:-5])
+    return assembly_id_list

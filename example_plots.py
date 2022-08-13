@@ -13,5 +13,5 @@ assembly_id_list = ['7778_3a9748b3','148051_ad8f6d60','148105_610e3d11','148137_
 fe_util.plot_assembly_images(assembly_id_list)
 
 # plot all the body drawings in a assembly
-assembly_id = assembly_id_list[0]
-fe_util.plot_body_images_from_assembly(assembly_id)
+# assembly_id = assembly_id_list[0]
+# fe_util.plot_body_images_from_assembly(assembly_id)

@@ -12,7 +12,7 @@ assembly_id = assembly_id_list[1]
 
 assembly_data = fe_util.read_json(assembly_id)
 print(assembly_data.keys())
-print(assembly_data["bodies"].keys())
+# print(assembly_data["contacts"])
 
 
 
