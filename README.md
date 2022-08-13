@@ -13,7 +13,7 @@ c) create a new folder `full_data`, and copy the `train` and `validation` folder
 This will install the independencies for the tools (e.g. tensorflow).
 ```sh
 cd [path to this repository]                      # go to where you saved this repository on your local machine
-conda env create --file=IDETC22-Hackathon.yml  # reproduce conda environment from .yml
+conda env create -f IDETC22-Hackathon.yml  # reproduce conda environment from .yml
 conda activate IDETC22-Hackathon               # activate the created environment
 ```
 
