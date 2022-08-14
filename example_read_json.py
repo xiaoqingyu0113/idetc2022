@@ -12,7 +12,9 @@ assembly_id = assembly_id_list[1]
 
 assembly_data = fe_util.read_json(assembly_id)
 print(assembly_data.keys())
-# print(assembly_data["contacts"])
+print(assembly_data["joints"]["0e448cf4-059b-11ec-811b-065185b4953b"].keys())
+print(assembly_data["joints"]["0e448cf4-059b-11ec-811b-065185b4953b"]["joint_motion"]["joint_type"])
 
-
-
+# print(assembly_data["contacts"][0])
+# print(assembly_data["joints"]["0e448cf4-059b-11ec-811b-065185b4953b"]["joint_motion"]["joint_type"])
+# print(assembly_data["bodies"]["0e3d39e2-059b-11ec-a643-065185b4953b"])

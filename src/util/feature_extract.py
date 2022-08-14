@@ -6,7 +6,7 @@ import glob
 import matplotlib.pyplot as plt
 import pandas as pd
 import json
-
+from src.util.assembly_graph import AssemblyGraph
 data_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'../../full_data/train/'))
 json_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'../../fingerprints/json/'))
 csv_root = os.path.abspath(os.path.join(os.path.dirname(__file__),'../../fingerprints/csv/'))
@@ -49,7 +49,7 @@ def plot_assembly_images(assembly_id_list):
         ax.get_xaxis().set_visible(False)
         ax.get_yaxis().set_visible(False)
 
-    plt.show()
+    # plt.show()
     return 
 
 
@@ -80,7 +80,7 @@ def plot_body_images_from_assembly(assembly_id,body_id=None):
             ax.set_title(f"body_id = {bodyid}",fontdict={'fontsize': font_size})
             ax.get_xaxis().set_visible(False)
             ax.get_yaxis().set_visible(False)
-        plt.show()
+        # plt.show()
     return 
 
 def read_fingerprint(assembly_id):
@@ -106,5 +106,49 @@ def get_assembly_id_list():
     filenames = glob.glob(f"{json_root}/*.json")
     assembly_id_list = []
     for filename in filenames:
+        if '.txt' in filename:
+            continue
         assembly_id_list.append(filename.split('/')[-1][:-5])
     return assembly_id_list
+
+def get_graph(assembly_id):
+    assembly_file = f"{json_root}/{assembly_id}.json"
+    ag = AssemblyGraph(assembly_file)
+    graph = ag.get_graph_networkx()
+    label_dict = ag.get_node_label_dict()
+    return graph, label_dict
+
+def get_volume(assembly_data_source):
+    vol_source = 0
+    for vol in assembly_data_source["bodies"].keys():
+        vol_source+=assembly_data_source["bodies"][vol]["physical_properties"]["volume"]
+    return vol_source
+
+def get_dof(assembly_data):
+    dof = np.zeros(6)
+    if "joints" in assembly_data.keys():
+        key = "joints"
+    elif "as_built_joints" in assembly_data.keys():
+        key = "as_built_joints"
+    else:
+        return dof
+    if assembly_data[key] == None:
+        return dof
+    for joint in  assembly_data[key].keys():
+        joint_type = assembly_data[key][joint]["joint_motion"]["joint_type"]
+        if joint_type == 'RigidJointType':
+            pass
+        elif joint_type == 'RevoluteJointType':
+            dof[0] += 1
+        elif joint_type == 'SliderJointType':
+            dof[1] +=1
+        elif joint_type == 'CylindricalJointType':
+            dof[2] +=1
+        elif joint_type == 'PinSlotJointType':
+            dof[3]+=1
+        elif joint_type == 'PlanarJointType':
+            dof[4]+=1
+        elif joint_type == 'BallJointType':
+            dof[5]+=1
+
+    return dof
