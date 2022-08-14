@@ -26,6 +26,7 @@ assembly_id = "34103_6635d58e"
 graph, label_dict = fe_util.get_graph(assembly_id)
 
 print(list(graph.nodes))
+print(list(graph.nodes)[0].split("_")[-1])
 
 nx.draw(graph,connectionstyle="arc3, rad = 0.1", labels=label_dict, with_labels=True)
 plt.show()

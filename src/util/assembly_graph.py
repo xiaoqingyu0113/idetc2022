@@ -40,7 +40,7 @@ class AssemblyGraph():
     def get_graph_networkx(self):
         """Get a networkx graph"""
         graph_data = {
-            "directed": True,
+            "directed": False,
             "multigraph": False,
             "graph": {},
             "nodes": [],

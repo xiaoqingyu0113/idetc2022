@@ -90,6 +90,13 @@ def read_assembly_fingerprint(assembly_id):
     fp = pd.read_csv(f"{csv_root}/{assembly_id}.csv",index_col=0).T
     return fp["assembly.jpg"].to_numpy()
 
+def read_bodies_fingerprint(assembly_id,bodies_id):
+    fp = pd.read_csv(f"{csv_root}/{assembly_id}.csv",index_col=0).T
+    for i in range(len(bodies_id)):
+        bodies_id[i] = bodies_id[i] + '.jpg'
+    bodies_fp = fp[bodies_id]
+    return bodies_fp.to_numpy()
+
 def read_json(assembly_id,property=None):
     f = open (f"{json_root}/{assembly_id}.json", "r")
     assembly_data = json.loads(f.read())
@@ -123,19 +130,25 @@ def get_volume(assembly_data_source):
     for vol in assembly_data_source["bodies"].keys():
         vol_source+=assembly_data_source["bodies"][vol]["physical_properties"]["volume"]
     return vol_source
+def get_bodies_volume(assembly_id,bodies_id):
+    vol_bodies = []
+    for body_id in bodies_id:
+        assembly_data = read_json(assembly_id)
+        v = assembly_data["bodies"][body_id]["physical_properties"]["volume"]
+        vol_bodies.append(v)
+    return vol_bodies
 
 def get_dof(assembly_data):
     dof = np.zeros(6)
-    if "joints" in assembly_data.keys():
-        key = "joints"
-    elif "as_built_joints" in assembly_data.keys():
-        key = "as_built_joints"
-    else:
+
+    if "as_built_joints" in assembly_data.keys():
         return dof
-    if assembly_data[key] == None:
+    if "joints" not in assembly_data.keys():
         return dof
-    for joint in  assembly_data[key].keys():
-        joint_type = assembly_data[key][joint]["joint_motion"]["joint_type"]
+    if assembly_data["joints"] == None:
+        return dof
+    for joint in  assembly_data["joints"].keys():
+        joint_type = assembly_data["joints"][joint]["joint_motion"]["joint_type"]
         if joint_type == 'RigidJointType':
             pass
         elif joint_type == 'RevoluteJointType':
@@ -152,3 +165,15 @@ def get_dof(assembly_data):
             dof[5]+=1
 
     return dof
+
+def get_crucial_bodies(graph):
+    V = list(graph.degree)
+    max_degree = 0
+    bodies = []
+    for name,degree in V:
+        if degree > max_degree:
+            max_degree = degree
+            bodies = [name.split('_')[-1]]
+        elif degree == max_degree:
+            bodies.append(name.split('_')[-1])
+    return bodies,max_degree
